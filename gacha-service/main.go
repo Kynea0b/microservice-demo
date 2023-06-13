@@ -35,6 +35,10 @@ func main() {
 	}
 	defer db.Close()
 
+	// if err = db.Ping(); err != nil {
+	// 	log.Fatal(err)
+	// }
+
 	// grpc server の起動
 	listener, err := net.Listen("tcp", ":8080")
 	if err != nil {
