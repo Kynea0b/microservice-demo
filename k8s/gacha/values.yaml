@@ -1,14 +1,14 @@
 replicaCount: 3
 
-image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+image:
+  name: gacha
+  repository: jy8752/microservice-demo-gacha-service
+  pullPolicy: IfNotPresent
+  tag: "latest"
 
 serviceAccount:
   # Specifies whether a service account should be created
