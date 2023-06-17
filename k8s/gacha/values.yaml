@@ -7,7 +7,7 @@ fullnameOverride: ""
 image:
   name: gacha
   repository: jy8752/microservice-demo-gacha-service
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   tag: "latest"
 
 serviceAccount:

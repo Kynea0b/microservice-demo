@@ -18,14 +18,12 @@ RUN go build -o gacha-service
 ##
 ## Deploy
 ##
-FROM gcr.io/distroless/base-debian10
+FROM debian:12-slim
 
 WORKDIR /
 
 COPY --from=build app/gacha-service .
 
 EXPOSE 8080
-
-USER nonroot:nonroot
 
 ENTRYPOINT ["/gacha-service"]

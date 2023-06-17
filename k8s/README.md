@@ -17,10 +17,10 @@ helm dependencies build
 
 ```
 # パスワード
-kubectl get secret --namespace default microservice-demo-chart-mysql -o jsonpath="{.data.mysql-root-password}" | base64 --decode; echo
+kubectl get secret --namespace default gacha-mysql -o jsonpath="{.data.mysql-root-password}" | base64 --decode; echo
 
 # 別のコンテナから繋いでみる
 kubectl exec -it <Pod name> -- bash
 apt update && apt install default-mysql-core
-mysql -uroot -p -h microservice-demo-chart-mysql
+mysql -uroot -p -h gacha-mysql
 ```
