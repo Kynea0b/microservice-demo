@@ -79,5 +79,7 @@ affinity: {}
 
 # bitnami/mysql
 
-auth:
-  database: Gacha
+mysql:
+    auth:
+        database: Gacha
+        username: gacha

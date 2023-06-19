@@ -22,6 +22,5 @@
 *.tmproj
 .vscode/
 
-.env
-.env.*
 Makefile
+README.md

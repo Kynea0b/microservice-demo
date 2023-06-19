@@ -1,1 +1,4 @@
-.env
+keys.txt
+secrets/
+
+!secrets/*.enc.yaml
