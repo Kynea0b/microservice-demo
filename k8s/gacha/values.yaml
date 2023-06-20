@@ -80,6 +80,10 @@ affinity: {}
 # bitnami/mysql
 
 mysql:
-    auth:
-        database: Gacha
-        username: gacha
+  auth:
+    database: Gacha
+    username: gacha
+  host: gacha-mysql
+  password:
+    secretName: gacha-mysql
+    secretKey: mysql-password

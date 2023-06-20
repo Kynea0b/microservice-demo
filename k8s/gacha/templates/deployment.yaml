@@ -47,6 +47,16 @@ spec:
           #     port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysql.password.secretName }}
+                  key: {{ .Values.mysql.password.secretKey }}
+            - name: DB_HOST
+              value: {{ .Values.mysql.host }}
+            - name: DB_USER
+              value: {{ .Values.mysql.auth.username }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
