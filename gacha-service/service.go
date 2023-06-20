@@ -82,8 +82,8 @@ func linearSearchLottery(weights []int, seed int64) int {
 	if seed == 0 {
 		seed = time.Now().UnixNano()
 	}
-	rand.Seed(seed)
-	rnd := rand.Intn(total)
+	r := rand.New(rand.NewSource(seed))
+	rnd := r.Intn(total)
 
 	var currentWeight int
 	for i, w := range weights {
