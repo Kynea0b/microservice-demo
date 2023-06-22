@@ -54,7 +54,7 @@ spec:
                   name: {{ .Values.mysql.password.secretName }}
                   key: {{ .Values.mysql.password.secretKey }}
             - name: DB_HOST
-              value: {{ .Values.mysql.host }}
+              value: "{{ .Values.mysql.host }}.default.svc.cluster.local"
             - name: DB_USER
               value: {{ .Values.mysql.auth.username }}
       {{- with .Values.nodeSelector }}

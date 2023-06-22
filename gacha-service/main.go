@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	port = ":3306"
+	port = "3306"
 	db   = "Gacha"
 )
 
@@ -49,13 +49,33 @@ func getDatasourceName() (string, error) {
 func connectDb(dataSourceName string) (*sql.DB, error) {
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
+		fmt.Println("failed to connect database")
 		return nil, err
 	}
 
 	if err = db.Ping(); err != nil {
+		fmt.Println("failed to ping")
 		return nil, err
 	}
 	return db, nil
+}
+
+func createTable(db *sql.DB) error {
+	q := `
+	CREATE TABLE IF NOT EXISTS histories (
+		id BIGINT PRIMARY KEY AUTO_INCREMENT,
+		user_id BIGINT NOT NULL,
+		item_id BIGINT NOT NULL,
+		item_name VARCHAR(255) NOT NULL,
+		rarity VARCHAR(20) NOT NULL,
+		created_at DATETIME NOT NULL
+	)
+	`
+	_, err := db.Exec(q)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func main() {
@@ -71,6 +91,8 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
+	createTable(db)
 
 	// grpc server の起動
 	listener, err := net.Listen("tcp", ":8080")

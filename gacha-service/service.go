@@ -54,7 +54,7 @@ func (g *gachaServiceServer) Draw(ctx context.Context, req *gachapb.DrawRequest)
 func save(ctx context.Context, db *sql.DB, userId int64, item Item) error {
 	_, err := db.ExecContext(
 		ctx,
-		"INSERT INTO Gacha (user_id, item_id, item_name, rarity, created_at) VALUES (?, ?, ?, ?, ?)",
+		"INSERT INTO histories (user_id, item_id, item_name, rarity, created_at) VALUES (?, ?, ?, ?, ?)",
 		userId,
 		item.Id,
 		item.Name,

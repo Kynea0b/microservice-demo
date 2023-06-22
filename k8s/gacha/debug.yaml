@@ -21,8 +21,6 @@ spec:
     volumeMounts:
     - name: local-bin
       mountPath: /usr/local/bin
-    - name: "bin"
-      mountPath: /usr/bin/
   containers:
   - name: app
     image: debian
@@ -31,10 +29,6 @@ spec:
     volumeMounts:
     - name: local-bin
       mountPath: /usr/local/bin
-    - name: "bin"
-      mountPath: /usr/bin
   volumes:
   - name: local-bin
-    emptyDir: {}
-  - name: "bin"
     emptyDir: {}
