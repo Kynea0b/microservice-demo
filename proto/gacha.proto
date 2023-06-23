@@ -4,6 +4,8 @@ option go_package = "pkg/grpc";
 
 package gacha;
 
+import "proto/rarity.proto";
+
 service GachaService {
   rpc Draw(DrawRequest) returns (DrawResponse) {}
 }
@@ -15,13 +17,5 @@ message DrawRequest {
 message DrawResponse {
   int64  item_id   = 1;
   string item_name = 2;
-  Rarity rarity    = 3;
-}
-
-enum Rarity {
-  RARITY_UNKNOWN = 0;
-  RARITY_N       = 1;
-  RARITY_R       = 2;
-  RARITY_SR      = 3;
-  RARITY_SSR     = 4;
+  rarity.Rarity rarity    = 3;
 }

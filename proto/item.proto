@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option go_package = "pkg/grpc";
+
+package item;
+
+import "proto/rarity.proto";
+
+service ItemService {
+    rpc GetItem(GetItemRequest) returns (GetItemResponse) {}
+}
+
+message GetItemRequest {
+    int64 user_id  = 1;
+    int64 item_id  = 2;
+    string item_name = 3;
+    rarity.Rarity rarity = 4;
+}
+
+message GetItemResponse {
+    int64 item_id  = 1;
+    string item_name = 2;
+    rarity.Rarity rarity = 3;
+    int32 count = 4;
+}
