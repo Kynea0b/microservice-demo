@@ -1,3 +1,5 @@
+export SOPS_AGE_KEY_FILE=$(HOME)/work/microservice-demo/k8s/gacha/keys.txt
+
 apply:
 	helm secrets upgrade gacha . --install \
 	-f values.yaml \
