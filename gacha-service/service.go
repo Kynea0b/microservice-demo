@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	gachapb "gacha-service/pkg/grpc/proto"
 	"math/rand"
 	"time"
@@ -43,6 +44,14 @@ func (g *gachaServiceServer) Draw(ctx context.Context, req *gachapb.DrawRequest)
 	if err := save(ctx, g.db, req.UserId, item); err != nil {
 		return nil, err
 	}
+
+	// item所持情報も更新する
+	res, err := GetItem(ctx, req.UserId, item.Id, item.Name, item.Rarity)
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Printf("get_item_response: %+v\n", res)
 
 	return &gachapb.DrawResponse{
 		ItemId:   item.Id,

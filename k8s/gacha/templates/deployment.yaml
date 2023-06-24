@@ -57,6 +57,8 @@ spec:
               value: "{{ .Values.mysql.host }}.default.svc.cluster.local"
             - name: DB_USER
               value: {{ .Values.mysql.auth.username }}
+            - name: ITEM_SERVICE_HOST
+              value: "{{ .Values.itemService.host }}.default.svc.cluster.local"
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

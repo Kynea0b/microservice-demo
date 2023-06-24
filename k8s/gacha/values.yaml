@@ -87,3 +87,6 @@ mysql:
   password:
     secretName: gacha-mysql
     secretKey: mysql-password
+
+itemService:
+  host: item
