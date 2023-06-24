@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"google.golang.org/grpc"
@@ -52,6 +53,23 @@ func Draw(c echo.Context) error {
 		UserId: dr.UserId,
 	}
 	res, err := client.Draw(context.Background(), req)
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, res)
+}
+
+func GetHistories(c echo.Context) error {
+	p := c.Param("user_id")
+	userId, err := strconv.ParseInt(p, 10, 64)
+	if err != nil {
+		return err
+	}
+
+	req := &gachapb.GetHistoriesRequest{
+		UserId: userId,
+	}
+	res, err := client.GetHistories(context.Background(), req)
 	if err != nil {
 		return err
 	}

@@ -5,9 +5,11 @@ option go_package = "pkg/grpc";
 package gacha;
 
 import "proto/rarity.proto";
+import "google/protobuf/timestamp.proto";
 
 service GachaService {
   rpc Draw(DrawRequest) returns (DrawResponse) {}
+  rpc GetHistories(GetHistoriesRequest) returns (GetHistoriesResponse) {}
 }
 
 message DrawRequest {
@@ -18,4 +20,19 @@ message DrawResponse {
   int64  item_id   = 1;
   string item_name = 2;
   rarity.Rarity rarity    = 3;
+}
+
+message GetHistoriesRequest {
+  int64 user_id = 1;
+}
+
+message History {
+  int64  item_id   = 1;
+  string item_name = 2;
+  rarity.Rarity rarity    = 3;
+  google.protobuf.Timestamp created_at = 4;
+}
+
+message GetHistoriesResponse {
+  repeated History histories = 1;
 }

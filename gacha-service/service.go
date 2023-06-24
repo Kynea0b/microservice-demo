@@ -107,3 +107,33 @@ func linearSearchLottery(weights []int, seed int64) int {
 	// たぶんありえない
 	return len(weights) - 1
 }
+
+func (g *gachaServiceServer) GetHistories(ctx context.Context, req *gachapb.GetHistoriesRequest) (*gachapb.GetHistoriesResponse, error) {
+	rows, err := g.db.QueryContext(
+		ctx,
+		"SELECT item_id, item_name, rarity, created_at FROM histories WHERE user_id = ? ORDER BY created_at DESC",
+		req.UserId,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var histories []*gachapb.History
+	for rows.Next() {
+		var history gachapb.History
+		if err := rows.Scan(
+			&history.ItemId,
+			&history.ItemName,
+			&history.Rarity,
+			&history.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		histories = append(histories, &history)
+	}
+
+	return &gachapb.GetHistoriesResponse{
+		Histories: histories,
+	}, nil
+}

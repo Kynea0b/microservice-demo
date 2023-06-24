@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GachaServiceClient interface {
 	Draw(ctx context.Context, in *DrawRequest, opts ...grpc.CallOption) (*DrawResponse, error)
+	GetHistories(ctx context.Context, in *GetHistoriesRequest, opts ...grpc.CallOption) (*GetHistoriesResponse, error)
 }
 
 type gachaServiceClient struct {
@@ -42,11 +43,21 @@ func (c *gachaServiceClient) Draw(ctx context.Context, in *DrawRequest, opts ...
 	return out, nil
 }
 
+func (c *gachaServiceClient) GetHistories(ctx context.Context, in *GetHistoriesRequest, opts ...grpc.CallOption) (*GetHistoriesResponse, error) {
+	out := new(GetHistoriesResponse)
+	err := c.cc.Invoke(ctx, "/gacha.GachaService/GetHistories", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GachaServiceServer is the server API for GachaService service.
 // All implementations must embed UnimplementedGachaServiceServer
 // for forward compatibility
 type GachaServiceServer interface {
 	Draw(context.Context, *DrawRequest) (*DrawResponse, error)
+	GetHistories(context.Context, *GetHistoriesRequest) (*GetHistoriesResponse, error)
 	mustEmbedUnimplementedGachaServiceServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedGachaServiceServer struct {
 
 func (UnimplementedGachaServiceServer) Draw(context.Context, *DrawRequest) (*DrawResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Draw not implemented")
+}
+func (UnimplementedGachaServiceServer) GetHistories(context.Context, *GetHistoriesRequest) (*GetHistoriesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHistories not implemented")
 }
 func (UnimplementedGachaServiceServer) mustEmbedUnimplementedGachaServiceServer() {}
 
@@ -88,6 +102,24 @@ func _GachaService_Draw_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GachaService_GetHistories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetHistoriesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GachaServiceServer).GetHistories(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/gacha.GachaService/GetHistories",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GachaServiceServer).GetHistories(ctx, req.(*GetHistoriesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GachaService_ServiceDesc is the grpc.ServiceDesc for GachaService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +130,10 @@ var GachaService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Draw",
 			Handler:    _GachaService_Draw_Handler,
+		},
+		{
+			MethodName: "GetHistories",
+			Handler:    _GachaService_GetHistories_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
