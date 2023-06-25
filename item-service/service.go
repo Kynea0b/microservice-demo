@@ -109,3 +109,50 @@ func update(userId, itemId int64, db *sql.DB) error {
 	}
 	return nil
 }
+
+func (i *itemServiceServer) GetInventory(ctx context.Context, req *itempb.GetInventoryRequest) (*itempb.GetInventoryResponse, error) {
+	rows, err := getInventries(req.UserId, i.db)
+	if err != nil {
+		return nil, err
+	}
+
+	inventories := make([]*itempb.InventoryItem, len(rows))
+	for i, inventry := range rows {
+		inventories[i] = &itempb.InventoryItem{
+			ItemId:   inventry.ItemId,
+			ItemName: inventry.ItemName,
+			Rarity:   itempb.Rarity(itempb.Rarity_value[inventry.Rarity]),
+			Count:    int32(inventry.Count),
+		}
+	}
+
+	return &itempb.GetInventoryResponse{
+		Items: inventories,
+	}, nil
+}
+
+func getInventries(userId int64, db *sql.DB) ([]Inventory, error) {
+	rows, err := db.Query("SELECT * FROM inventry WHERE user_id = ? ORDER BY item_id ASC", userId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var inventries []Inventory
+	for rows.Next() {
+		var inventry Inventory
+		if err := rows.Scan(
+			&inventry.Id,
+			&inventry.UserId,
+			&inventry.ItemId,
+			&inventry.ItemName,
+			&inventry.Rarity,
+			&inventry.Count,
+			&inventry.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		inventries = append(inventries, inventry)
+	}
+	return inventries, nil
+}

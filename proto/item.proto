@@ -8,6 +8,7 @@ import "proto/rarity.proto";
 
 service ItemService {
     rpc GetItem(GetItemRequest) returns (GetItemResponse) {}
+    rpc GetInventory(GetInventoryRequest) returns (GetInventoryResponse) {}
 }
 
 message GetItemRequest {
@@ -22,4 +23,19 @@ message GetItemResponse {
     string item_name = 2;
     rarity.Rarity rarity = 3;
     int32 count = 4;
+}
+
+message GetInventoryRequest {
+    int64 user_id  = 1;
+}
+
+message InventoryItem {
+    int64 item_id  = 1;
+    string item_name = 2;
+    rarity.Rarity rarity = 3;
+    int32 count = 4;
+}
+
+message GetInventoryResponse {
+    repeated InventoryItem items = 1;
 }
