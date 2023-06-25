@@ -18,7 +18,8 @@ func main() {
 
 	// Routes
 	e.POST("/draw", Draw)
-	e.GET("/history/:user_id", GetHistories)
+	e.GET("/histories/:user_id", GetHistories)
+	e.GET("/inventories/:user_id", GetInventories)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))

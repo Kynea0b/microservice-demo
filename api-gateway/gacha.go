@@ -14,10 +14,10 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-var client gachapb.GachaServiceClient
+var gachaClient gachapb.GachaServiceClient
 
 func init() {
-	if client != nil {
+	if gachaClient != nil {
 		return
 	}
 
@@ -35,7 +35,7 @@ func init() {
 		panic(err)
 	}
 
-	client = gachapb.NewGachaServiceClient(conn)
+	gachaClient = gachapb.NewGachaServiceClient(conn)
 }
 
 type DrawRequest struct {
@@ -52,7 +52,7 @@ func Draw(c echo.Context) error {
 	req := &gachapb.DrawRequest{
 		UserId: dr.UserId,
 	}
-	res, err := client.Draw(context.Background(), req)
+	res, err := gachaClient.Draw(context.Background(), req)
 	if err != nil {
 		return err
 	}
@@ -69,7 +69,7 @@ func GetHistories(c echo.Context) error {
 	req := &gachapb.GetHistoriesRequest{
 		UserId: userId,
 	}
-	res, err := client.GetHistories(context.Background(), req)
+	res, err := gachaClient.GetHistories(context.Background(), req)
 	if err != nil {
 		return err
 	}
