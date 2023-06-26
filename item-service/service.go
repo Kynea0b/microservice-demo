@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	itempb "item-service/pkg/grpc/proto"
+	"log"
 	"time"
 )
 
@@ -57,7 +58,7 @@ func (s *itemServiceServer) GetItem(ctx context.Context, req *itempb.GetItemRequ
 }
 
 func get(userId, itemId int64, db *sql.DB) (Inventory, error) {
-	row := db.QueryRow("SELECT id FROM inventry WHERE user_id = ? AND item_id = ?", userId, itemId)
+	row := db.QueryRow("SELECT * FROM inventry WHERE user_id = ? AND item_id = ?", userId, itemId)
 
 	var inventry Inventory
 	if err := row.Scan(
@@ -113,6 +114,7 @@ func update(userId, itemId int64, db *sql.DB) error {
 func (i *itemServiceServer) GetInventory(ctx context.Context, req *itempb.GetInventoryRequest) (*itempb.GetInventoryResponse, error) {
 	rows, err := getInventries(req.UserId, i.db)
 	if err != nil {
+		log.Printf("failed to get inventries: %v\n", err)
 		return nil, err
 	}
 

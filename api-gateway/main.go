@@ -20,6 +20,9 @@ func main() {
 	e.POST("/draw", Draw)
 	e.GET("/histories/:user_id", GetHistories)
 	e.GET("/inventories/:user_id", GetInventories)
+	e.GET("/test", func(c echo.Context) error {
+		return c.String(200, "test")
+	})
 
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))

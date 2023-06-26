@@ -11,6 +11,7 @@ import (
 
 	itempb "item-service/pkg/grpc/proto"
 
+	_ "github.com/go-sql-driver/mysql"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -36,7 +37,7 @@ func getDatasourceName() (string, error) {
 		return "", fmt.Errorf("DB_HOST is not set")
 	}
 
-	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
+	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
 		user,
 		pass,
 		host,

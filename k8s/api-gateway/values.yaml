@@ -81,3 +81,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+gachaService:
+  host: gacha-microservice-demo
+itemService:
+  host: item

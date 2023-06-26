@@ -7,6 +7,8 @@ import (
 	gachapb "gacha-service/pkg/grpc/proto"
 	"math/rand"
 	"time"
+
+	timestamp "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Item struct {
@@ -14,6 +16,13 @@ type Item struct {
 	Name   string
 	Rarity gachapb.Rarity
 	Weight int
+}
+
+type History struct {
+	ItemId    int64
+	ItemName  string
+	Rarity    string
+	CreatedAt time.Time
 }
 
 type gachaServiceServer struct {
@@ -121,7 +130,7 @@ func (g *gachaServiceServer) GetHistories(ctx context.Context, req *gachapb.GetH
 
 	var histories []*gachapb.History
 	for rows.Next() {
-		var history gachapb.History
+		var history History
 		if err := rows.Scan(
 			&history.ItemId,
 			&history.ItemName,
@@ -130,10 +139,28 @@ func (g *gachaServiceServer) GetHistories(ctx context.Context, req *gachapb.GetH
 		); err != nil {
 			return nil, err
 		}
-		histories = append(histories, &history)
+		histories = append(histories, toMessage(history))
 	}
 
 	return &gachapb.GetHistoriesResponse{
 		Histories: histories,
 	}, nil
+}
+
+func toMessage(h History) *gachapb.History {
+	return &gachapb.History{
+		ItemId:    h.ItemId,
+		ItemName:  h.ItemName,
+		Rarity:    parseRarity(h.Rarity),
+		CreatedAt: timestamp.New(h.CreatedAt),
+	}
+}
+
+func parseRarity(s string) gachapb.Rarity {
+	value, ok := gachapb.Rarity_value[s]
+	if !ok {
+		fmt.Printf("invalid Rarity: %s\n", s)
+		return gachapb.Rarity_RARITY_UNKNOWN
+	}
+	return gachapb.Rarity(value)
 }

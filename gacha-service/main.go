@@ -37,7 +37,7 @@ func getDatasourceName() (string, error) {
 		return "", fmt.Errorf("DB_HOST is not set")
 	}
 
-	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
+	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
 		user,
 		pass,
 		host,

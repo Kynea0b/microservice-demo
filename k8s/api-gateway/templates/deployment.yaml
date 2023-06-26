@@ -47,6 +47,11 @@ spec:
           #     port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: GACHA_SERVICE_HOST
+              value: "{{ .Values.gachaService.host }}.default.svc.cluster.local"
+            - name: Item_SERVICE_HOST
+              value: "{{ .Values.itemService.host }}.default.svc.cluster.local"
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

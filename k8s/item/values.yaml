@@ -86,4 +86,4 @@ mysql:
   host: item-mysql
   password:
     secretName: item-mysql
-    secretKey: item-password
+    secretKey: mysql-password
