@@ -53,10 +53,10 @@ func connectDb(dataSourceName string) (*sql.DB, error) {
 		return nil, err
 	}
 
-	if err = db.Ping(); err != nil {
-		fmt.Println("failed to ping")
-		return nil, err
-	}
+	// if err = db.Ping(); err != nil {
+	// 	fmt.Println("failed to ping")
+	// 	return nil, err
+	// }
 	return db, nil
 }
 
