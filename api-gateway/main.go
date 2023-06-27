@@ -24,6 +24,15 @@ func main() {
 		return c.String(200, "test")
 	})
 
+	defer func() {
+		if itemConn != nil {
+			itemConn.Close()
+		}
+		if gachaConn != nil {
+			gachaConn.Close()
+		}
+	}()
+
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))
 }

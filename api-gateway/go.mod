@@ -3,7 +3,6 @@ module api-gateway
 go 1.20
 
 require (
-	github.com/golang/protobuf v1.5.3
 	github.com/labstack/echo/v4 v4.10.2
 	google.golang.org/grpc v1.56.1
 	google.golang.org/protobuf v1.30.0
@@ -11,6 +10,7 @@ require (
 
 require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
+	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect

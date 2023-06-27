@@ -11,7 +11,10 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-var client gachapb.ItemServiceClient
+var (
+	client gachapb.ItemServiceClient
+	conn   *grpc.ClientConn
+)
 
 func init() {
 	if client != nil {
@@ -23,7 +26,8 @@ func init() {
 		log.Fatal("ITEM_SERVICE_HOST is not set")
 	}
 
-	conn, err := grpc.Dial(
+	var err error
+	conn, err = grpc.Dial(
 		fmt.Sprintf("%s:%s", host, "8080"),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithBlock(),
@@ -43,4 +47,11 @@ func GetItem(ctx context.Context, userId, itemId int64, itemName string, rarity 
 		Rarity:   rarity,
 	}
 	return client.GetItem(ctx, req)
+}
+
+func Close() error {
+	if conn != nil {
+		return conn.Close()
+	}
+	return nil
 }

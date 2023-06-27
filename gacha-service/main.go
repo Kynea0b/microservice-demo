@@ -119,6 +119,8 @@ func main() {
 		}
 	}()
 
+	defer Close()
+
 	// Graceful Shutdown
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM, os.Interrupt)

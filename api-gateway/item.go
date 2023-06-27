@@ -14,7 +14,10 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-var itemClient itempb.ItemServiceClient
+var (
+	itemClient itempb.ItemServiceClient
+	itemConn   *grpc.ClientConn
+)
 
 func init() {
 	if itemClient != nil {
@@ -26,7 +29,8 @@ func init() {
 		log.Fatal("ITEM_SERVICE_HOST is not set")
 	}
 
-	conn, err := grpc.Dial(
+	var err error
+	itemConn, err = grpc.Dial(
 		fmt.Sprintf("%s:%s", host, "8080"),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithBlock(),
@@ -35,7 +39,7 @@ func init() {
 		panic(err)
 	}
 
-	itemClient = itempb.NewItemServiceClient(conn)
+	itemClient = itempb.NewItemServiceClient(itemConn)
 }
 
 func GetInventories(c echo.Context) error {
@@ -53,4 +57,10 @@ func GetInventories(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, res)
+}
+
+func CloseItemConnection() {
+	if itemConn != nil {
+		itemConn.Close()
+	}
 }

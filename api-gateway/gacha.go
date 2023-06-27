@@ -14,7 +14,10 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-var gachaClient gachapb.GachaServiceClient
+var (
+	gachaClient gachapb.GachaServiceClient
+	gachaConn   *grpc.ClientConn
+)
 
 func init() {
 	if gachaClient != nil {
@@ -26,7 +29,8 @@ func init() {
 		log.Fatal("GACHA_SERVICE_HOST is not set")
 	}
 
-	conn, err := grpc.Dial(
+	var err error
+	gachaConn, err = grpc.Dial(
 		fmt.Sprintf("%s:%s", host, "8080"),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithBlock(),
@@ -35,7 +39,7 @@ func init() {
 		panic(err)
 	}
 
-	gachaClient = gachapb.NewGachaServiceClient(conn)
+	gachaClient = gachapb.NewGachaServiceClient(gachaConn)
 }
 
 type DrawRequest struct {
@@ -74,4 +78,11 @@ func GetHistories(c echo.Context) error {
 		return err
 	}
 	return c.JSON(http.StatusOK, res)
+}
+
+func CloseGachaConnection() error {
+	if gachaConn != nil {
+		return gachaConn.Close()
+	}
+	return nil
 }
