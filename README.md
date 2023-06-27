@@ -1,6 +1,8 @@
 # microservice-demo
 microservice sample project.use Go, kubernetes, gRPC...
 
+![image](https://github.com/JY8752/microservice-demo/assets/58534052/e33a54c9-f5d3-4671-bb3d-17861bc101e9)
+
 ## grpc
 
 ```
