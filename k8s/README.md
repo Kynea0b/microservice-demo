@@ -24,3 +24,19 @@ kubectl exec -it <Pod name> -- bash
 apt update && apt install default-mysql-core
 mysql -uroot -p -h gacha-mysql
 ```
+
+## apply
+
+一括デプロイ
+
+```
+make apply
+```
+
+## delete
+
+一括削除
+
+```
+make delete
+```

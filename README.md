@@ -15,12 +15,18 @@ mkdir -p proto/grpc
 make proto
 ```
 
+## build
+
+```
+make build
+```
+
 ## request
 
 ### draw gacha
 
 ```
-curl -XPOST -H 'Content-Type: application/json' -d '{"user_id": 1}' localhost:50942/draw
+make draw USER_ID=1 PORT=50942
 
 {"item_id":3,"item_name":"item3","rarity":3}
 ```
@@ -28,7 +34,7 @@ curl -XPOST -H 'Content-Type: application/json' -d '{"user_id": 1}' localhost:50
 ### get gacha histories
 
 ```
-curl localhost:50942/histories/1
+make history USER_ID=1 PORT=50942 | jq
 
 {
   "histories": [
@@ -55,7 +61,7 @@ curl localhost:50942/histories/1
 ### get item inventory
 
 ```
-curl localhost:50942/inventories/1
+make inventry USER_ID=1 PORT=50942 | jq
 
 {
   "items": [
