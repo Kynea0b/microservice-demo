@@ -94,3 +94,7 @@ make inventry USER_ID=1 PORT=50942 | jq
   ]
 }
 ```
+
+## document
+
+[Minikubeで構築するマイクロサービスでKubernetesを学ぶ](https://zenn.dev/jy8752/articles/75ee8ccbe4725d)
