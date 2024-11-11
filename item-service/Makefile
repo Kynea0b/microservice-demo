@@ -5,7 +5,7 @@ proto:
 		--go-grpc_out=./pkg/grpc --go-grpc_opt=paths=source_relative \
 		../proto/rarity.proto ../proto/item.proto
 
-IMAGE_NAME="jy8752/microservice-demo-item-service:1.0.0"
+IMAGE_NAME="jy8752/item-service:1.0.0"
 
 .PHONY: build
 build:
@@ -14,3 +14,7 @@ build:
 		docker image rm $(IMAGE_NAME);\
 	fi
 	docker build -t $(IMAGE_NAME) .
+
+dockerbuild:
+	docker build . -t ${IMAGE_NAME}
+

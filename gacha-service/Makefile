@@ -9,7 +9,7 @@ proto:
 draw:
 	grpcurl --plaintext localhost:8080 gacha.GachaService.Draw
 
-IMAGE_NAME="jy8752/microservice-demo-gacha-service:1.0.0"
+IMAGE_NAME="jy8752/gacha-service:1.0.0"
 
 .PHONY: build
 build:
@@ -18,3 +18,6 @@ build:
 		docker image rm $(IMAGE_NAME);\
 	fi
 	docker build -t $(IMAGE_NAME) .
+
+dockerbuild:
+	docker build . -t ${IMAGE_NAME}
